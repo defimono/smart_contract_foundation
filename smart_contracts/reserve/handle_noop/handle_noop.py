@@ -1,36 +1,35 @@
 from pyteal import *
 
-from modules.contracts.foundation.reserve.handle_noop.functions.expire import expire
-from modules.contracts.foundation.reserve.handle_noop.functions.insure import insure
-from modules.contracts.foundation.reserve.handle_noop.functions.stake import stake
-from modules.contracts.foundation.reserve.handle_noop.functions.unstake import unstake
-from modules.contracts.foundation.reserve.handle_noop.functions.update_escrow import update_escrow
-from modules.contracts.shared.security_guards.general_guards import general_guards
-from modules.contracts.shared.security_guards.is_admin import is_admin
+from smart_contracts.libs.generic_guards import generic_guards
+from smart_contracts.libs.is_admin import is_admin
+from smart_contracts.reserve.handle_noop.functions.expire import expire
+from smart_contracts.reserve.handle_noop.functions.insure import insure
+from smart_contracts.reserve.handle_noop.functions.stake import stake
+from smart_contracts.reserve.handle_noop.functions.unstake import unstake
+from smart_contracts.reserve.handle_noop.functions.update_escrow import update_escrow
 
 
 def handle_noop():
-
     return Cond(
         [And(
             is_admin(),
-            *general_guards(),
+            *generic_guards(),
             Txn.application_args[0] == Bytes("update_escrow")
         ), update_escrow()],
         [And(
-            *general_guards(),
+            *generic_guards(),
             Txn.application_args[0] == Bytes("stake")
         ), stake()],
         [And(
-            *general_guards(),
+            *generic_guards(),
             Txn.application_args[0] == Bytes("unstake")
         ), unstake()],
         [And(
-            *general_guards(),
+            *generic_guards(),
             Txn.application_args[0] == Bytes("insure")
         ), insure()],
         [And(
-            *general_guards(),
+            *generic_guards(),
             Txn.application_args[0] == Bytes("expire")
         ), expire()],
         [And(

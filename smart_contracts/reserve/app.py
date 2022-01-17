@@ -1,8 +1,8 @@
 from pyteal import *
 
-from modules.contracts.foundation.reserve.handle_init.handle_init import handle_init
-from modules.contracts.foundation.reserve.handle_noop.handle_noop import handle_noop
-from modules.contracts.shared.security_guards.is_admin import is_admin
+from smart_contracts.libs.is_admin import is_admin
+from smart_contracts.reserve.handle_init.handle_init import handle_init
+from smart_contracts.reserve.handle_noop.handle_noop import handle_noop
 
 
 def reserve():

@@ -16,18 +16,15 @@ def option_collection():
     # Make sure no rekey of smart contract
     no_rekey_address = Txn.rekey_to() == Global.zero_address()
 
-    # Make sure no one forces a fee of like 100000 algos to blow account
-    acceptable_fee = Txn.fee() <= Int(10000)
+    # Make sure no one forces a fee of like 5000 algos to blow account
+    acceptable_fee = Txn.fee() <= Int(5000)
 
     on_init = Seq([
+        # Allow everyone to opt into the application without restriction
         Return(Int(1))
     ])
 
-    """
-    Block to handle switching of each supported app_arg
-    """
-    option_contract_id = GeneratedID(0)  # Generated ID for the to be created put option
-
+    contract_id = GeneratedID(0)
     i = ScratchVar(TealType.uint64)
 
     add_contract = Seq([
@@ -35,9 +32,8 @@ def option_collection():
         While(i.load() < Int(16)).Do(Seq([
             If(App.localGet(Txn.sender(), Itob(i.load())) == Int(0)).Then(
                 Seq([
-                    App.localPut(Txn.sender(), Itob(i.load()), option_contract_id),
+                    App.localPut(Txn.sender(), Itob(i.load()), contract_id),
                     Return(Int(1))
-                    # Break()
                 ])
             ),
             i.store(i.load() + Int(1))
@@ -47,16 +43,16 @@ def option_collection():
     ])
 
     remove_contract = Seq([
-        # i.store(Int(0)),
-        # While(i.load() < Int(16)).Do(Seq([
-        #     If(App.localGet(Txn.sender(), Itob(i.load())) == option_contract_id).Then(
-        #         Seq([
-        #             App.localDel(Txn.sender(), Itob(i.load())),
-        #             Return(Int(1))
-        #         ])
-        #     ),
-        #     i.store(i.load() + Int(1))
-        # ])),
+        i.store(Int(0)),
+        While(i.load() < Int(16)).Do(Seq([
+            If(App.localGet(Txn.sender(), Itob(i.load())) == contract_id).Then(
+                Seq([
+                    App.localDel(Txn.sender(), Itob(i.load())),
+                    Return(Int(1))
+                ])
+            ),
+            i.store(i.load() + Int(1))
+        ])),
 
         Return(Int(1))
     ])
@@ -69,9 +65,9 @@ def option_collection():
             Txn.application_args[0] == Bytes("add_contract")
         ), add_contract],
         [And(
-            # no_rekey_address,
-            # no_close_out_address,
-            # acceptable_fee,
+            no_rekey_address,
+            no_close_out_address,
+            acceptable_fee,
             Txn.application_args[0] == Bytes("remove_contract")
         ), remove_contract],
     )
