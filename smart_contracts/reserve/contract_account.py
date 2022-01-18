@@ -1,7 +1,7 @@
 from pyteal import *
 
 
-def reserve_contract_account(reserve_app_id):
+def contract_account(reserve_app_id):
     """
     asset transfers are a separate transaction type to an algorand payment transaction. pay != axfer
     :param reserve_app_id: The reserve application ID. Only approve transactions grouped with it.
