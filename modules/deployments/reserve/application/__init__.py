@@ -147,8 +147,6 @@ def update(app_id):
     # display results
     transaction_response = algod_client.pending_transaction_info(tx_id)
 
-    app_id = transaction_response['application-index']
-
     logger.info("Updated stateful reserve contract with app_id: {}".format(app_id))
 
-    return app_id
+    return transaction_response

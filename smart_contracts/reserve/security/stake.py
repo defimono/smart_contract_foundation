@@ -1,6 +1,15 @@
 from pyteal import *
 
 
+def assert_stake_guards():
+    asserted = []
+
+    for guard in stake_guards():
+        asserted.append(Assert(guard))
+
+    return asserted
+
+
 def stake_guards():
     # The noop must be in position 1 in the group and of type app call
     is_app_call = Gtxn[0].type_enum() == TxnType.ApplicationCall
