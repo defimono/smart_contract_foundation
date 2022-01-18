@@ -1,21 +1,37 @@
 from pyteal import *
 
 
-def reserve(
-        reserve_app_id,
-):
+def reserve_contract_account(reserve_app_id):
+    """
+    asset transfers are a separate transaction type to an algorand payment transaction. pay != axfer
+    :param reserve_app_id: The reserve application ID. Only approve transactions grouped with it.
+    :return:
+    """
     no_close_out_address = Txn.close_remainder_to() == Global.zero_address()
     no_rekey_address = Txn.rekey_to() == Global.zero_address()
     acceptable_fee = Txn.fee() <= Int(5000)
+
+    # Try to add a bit of hardening, for now
+    """
+    Control flow logic for when users stake/unstake. The only accepted asset is USDC.
+    First transaction is to the application, second is to the contract account
+    """
+    # Contract call 1 app verification
     is_app_call = Gtxn[0].type_enum() == TxnType.ApplicationCall
     linked_reserve_app_id = Gtxn[0].application_id() == Int(reserve_app_id)
 
+    # Contract call 2, a.k.a. this contract. 31566704 is the USDC asset ID.
+    is_asset_transfer = Gtxn[1].type_enum() == TxnType.AssetTransfer
+    is_usdc = Gtxn[1].xfer_asset() == Int(31566704)
+
     conditions = And(
-        linked_reserve_app_id,
         no_close_out_address,
-        is_app_call,
         no_rekey_address,
         acceptable_fee,
+        is_app_call,
+        linked_reserve_app_id,
+        is_asset_transfer,
+        is_usdc
     )
 
     return compileTeal(conditions, Mode.Signature, version=5)

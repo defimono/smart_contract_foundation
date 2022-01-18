@@ -10,11 +10,17 @@ from smart_contracts.reserve.handle_noop.functions.update_escrow import update_e
 
 
 def handle_noop():
+    """
+    Stake/Unstake
+    This will allow users who have opted-in to have a localstate item set, this counts how much of an asset they
+    have staked into the pool, and discount this when they unstake it.
+    :return: PyTeal Cond statement supporting various noop function calls
+    """
     return Cond(
         [And(
             is_admin(),
             *generic_guards(),
-            Txn.application_args[0] == Bytes("update_escrow")
+            Txn.application_args[0] == Bytes("update_contract_account")
         ), update_escrow()],
         [And(
             *generic_guards(),
