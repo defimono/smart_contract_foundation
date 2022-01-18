@@ -22,13 +22,13 @@ def contract_account(reserve_app_id):
     txn 1 must be asset id 31566704
     
     """
-    # Contract call 1 app verification
+    # Contract call 1 app verification. We *should* be txn 1 not 0...
     is_app_call = Gtxn[0].type_enum() == TxnType.ApplicationCall
     linked_reserve_app_id = Gtxn[0].application_id() == Int(reserve_app_id)
 
     # Contract call 2, a.k.a. this contract. 31566704 is the USDC asset ID.
-    is_asset_transfer = Gtxn[1].type_enum() == TxnType.AssetTransfer
-    is_usdc = Gtxn[1].xfer_asset() == Int(31566704)
+    is_asset_transfer = Txn.type_enum() == TxnType.AssetTransfer
+    is_usdc = Txn.xfer_asset() == Int(31566704)
 
     stake_conditions = And(
         no_close_out_address,

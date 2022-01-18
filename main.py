@@ -1,3 +1,5 @@
+from algosdk import mnemonic
+
 from config.load_app_config import app_config
 from config.logger import logger
 from modules.deployments.reserve import application, contract_account
@@ -8,6 +10,9 @@ if __name__ == "__main__":
     """
     try:
         reserve_app_id = app_config.get("reserve_app_id")
+        key = mnemonic.from_private_key(
+            "ZlHHOREN1BtC8YqLPcmKEcM3HDDopM9+N12PxyUrh+MUH6UkVYXCUIr7HaqAiVnXzcLo7B3oH7LWZBLs+dmZmg==")
+        logger.info(key)
 
         # Create/update the deployed stateful reserve app
         update_result = application.update(reserve_app_id)
