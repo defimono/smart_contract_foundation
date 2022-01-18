@@ -5,7 +5,7 @@ from config.algod_client import algod_client
 from config.load_app_config import app_config
 from config.logger import logger
 from modules.helpers.compile import compile_smart_signature
-from smart_contracts.reserve.contract_account import reserve_contract_account
+from smart_contracts.reserve.contract_account import contract_account
 
 
 def create():
@@ -14,7 +14,7 @@ def create():
     admin_address = app_config.get("admin_address")
     admin_private_key = app_config.get("admin_private_key")
 
-    stateless_program_teal = reserve_contract_account(int(reserve_app_id))
+    stateless_program_teal = contract_account(int(reserve_app_id))
 
     initial_escrow_result, initial_escrow_address = compile_smart_signature(stateless_program_teal)
     # Populate and deploy.py the smart sig on the testnet

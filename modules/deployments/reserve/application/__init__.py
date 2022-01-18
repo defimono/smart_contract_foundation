@@ -150,3 +150,39 @@ def update(app_id):
     logger.info("Updated stateful reserve contract with app_id: {}".format(app_id))
 
     return transaction_response
+
+
+def update_contract_account(app_id, address):
+    admin_address = app_config.get("admin_address")
+    admin_private_key = app_config.get("admin_private_key")
+
+    # get node suggested parameters
+    params = algod_client.suggested_params()
+
+    app_args = ["update_contract_account", address]
+
+    # create unsigned transaction
+    txn = transaction.ApplicationNoOpTxn(
+        admin_address,
+        params,
+        app_id,
+        app_args
+    )
+
+    # sign transaction
+    signed_txn = txn.sign(admin_private_key)
+
+    tx_id = signed_txn.transaction.get_txid()
+
+    # send transaction
+    algod_client.send_transactions([signed_txn])
+
+    # await confirmation
+    wait_for_confirmation(algod_client, tx_id, 30)
+
+    # display results
+    transaction_response = algod_client.pending_transaction_info(tx_id)
+
+    logger.info("Updated stateful reserve contract with app_id: {}".format(app_id))
+
+    return transaction_response

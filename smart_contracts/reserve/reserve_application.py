@@ -37,10 +37,12 @@ def reserve_application():
         ), update_contract_account()],
         [And(
             *generic_guards(),
+            Global.group_size() == Int(2),
             Txn.application_args[0] == Bytes("stake")
         ), stake()],
         [And(
             *generic_guards(),
+            Global.group_size() == Int(2),
             Txn.application_args[0] == Bytes("unstake")
         ), unstake()],
         # TODO, we need to refine the logic here for insure/expire
