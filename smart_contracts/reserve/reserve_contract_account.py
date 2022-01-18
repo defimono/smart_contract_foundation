@@ -29,7 +29,6 @@ def reserve_contract_account(reserve_app_id):
     # Contract call 2, a.k.a. this contract. 31566704 is the USDC asset ID.
     is_asset_transfer = Gtxn[1].type_enum() == TxnType.AssetTransfer
     is_usdc = Gtxn[1].xfer_asset() == Int(31566704)
-    correct_receiver = Gtxn[1].receiver() == GeneratedID(1)
 
     stake_conditions = And(
         no_close_out_address,
@@ -38,7 +37,6 @@ def reserve_contract_account(reserve_app_id):
         is_app_call,
         linked_reserve_app_id,
         is_asset_transfer,
-        correct_receiver,
         is_usdc
     )
 
