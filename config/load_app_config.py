@@ -1,6 +1,9 @@
 import os
 
 from algosdk import account
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
 def load_app_config():
@@ -12,8 +15,6 @@ def load_app_config():
     config["admin_private_key"] = os.environ["ADMIN_PRIVATE_KEY"]
     config["admin_address"] = account.address_from_private_key(config["admin_private_key"])
 
-    # Addresses relevant to app
-    config["premium_address"] = os.environ['PREMIUM_ADDRESS']
     config["reserve_address"] = os.environ['RESERVE_ADDRESS']
     config["reserve_program"] = os.environ['RESERVE_PROGRAM']
 
