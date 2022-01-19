@@ -51,7 +51,7 @@ jobs:
           pip install -r requirements.txt
 
       - name: Run Integration Tests
-        run: python -m pytest --import-mode=append tests/integration
+        run: python -m pytest tests/integration
 
       - name: Slack Notification
         uses: rtCamp/action-slack-notify@v2
