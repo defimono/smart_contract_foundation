@@ -5,16 +5,15 @@ from modules.deployments.reserve import application as reserve_application, cont
 
 if __name__ == "__main__":
     """
-    Work in progress in foundational repo
+    Work in progress in foundational repo. This script is intended to be called via CI/CD automation and local dev
+    and is how we use the ci pipeline to deploy and update existing applications
     """
     try:
-        # reserve_app_id = app_config.get("reserve_app_id")
-        #
-        # # generate_keypair()
-        #
-        # # Create/update the deployed stateful reserve app
-        # # reserve_app_id = application.create()
-        # update_result = reserve_application.update(reserve_app_id)
+        reserve_app_id = app_config.get("reserve_app_id")
+        contract_collection_app_id = app_config.get(
+            "contract_collection_app_id")
+
+        update_result = reserve_application.update(reserve_app_id)
         # # delete_result = application.delete(reserve_app_id)
         #
         # # Create the stateless contract account to hold funds
@@ -30,8 +29,8 @@ if __name__ == "__main__":
         #     reserve_app_id,
         #     contract_account_address,
         #     contract_account_program)
-
-        contract_collection_app_id = contract_collection_application.create()
+        # contract_collection_application.create()
+        contract_collection_application.update(contract_collection_app_id)
 
     except Exception as error:
         logger.error('{}'.format(error))

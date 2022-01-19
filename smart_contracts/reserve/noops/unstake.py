@@ -10,8 +10,15 @@ def unstake():
     return Seq([
         *assert_stake_guards(),
         # Assert(Gtxn[1].sender() == contract_account),
-        App.globalPut(Bytes("total_staked"), global_staked_state - Gtxn[1].asset_amount()),
-        App.localPut(Int(0), Bytes("staked"), local_staked_state - Gtxn[1].asset_amount()),
+        App.globalPut(
+            Bytes("total_staked"),
+            global_staked_state -
+            Gtxn[1].asset_amount()),
+        App.localPut(
+            Int(0),
+            Bytes("staked"),
+            local_staked_state -
+            Gtxn[1].asset_amount()),
 
         Return(Int(1))
     ])

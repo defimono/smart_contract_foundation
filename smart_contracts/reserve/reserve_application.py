@@ -15,7 +15,8 @@ def reserve_application():
     is_admin = Txn.sender() == App.globalGet(Bytes("admin"))
 
     handle_init = Seq([
-        # On init, lock the contract down to the admin only being able to interact with it, and other global states
+        # On init, lock the contract down to the admin only being able to
+        # interact with it, and other global states
         App.globalPut(Bytes("admin"), Txn.sender()),
         App.globalPut(Bytes("total_staked"), Int(0)),
         App.globalPut(Bytes("total_risk"), Int(0)),
@@ -25,7 +26,8 @@ def reserve_application():
     ])
 
     handle_optin = Seq([
-        # Allow anyone to opt into the contract, once opted set the local state staked amount.
+        # Allow anyone to opt into the contract, once opted set the local state
+        # staked amount.
         App.localPut(Txn.sender(), Bytes("staked"), Int(0)),
 
         Return(Int(1))

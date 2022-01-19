@@ -58,7 +58,8 @@ def test_reserve_stake_algorands_fails():
         payment_transaction.group = group_id
 
         # Sign transaction group
-        signed_application_transaction = application_transaction.sign(test_private_key)
+        signed_application_transaction = application_transaction.sign(
+            test_private_key)
         signed_payment_transaction = payment_transaction.sign(test_private_key)
 
         transaction_group = [
@@ -116,7 +117,8 @@ def test_reserve_stake_usdc():
     payment_transaction.group = group_id
 
     # Sign transaction group
-    signed_application_transaction = application_transaction.sign(test_private_key)
+    signed_application_transaction = application_transaction.sign(
+        test_private_key)
     signed_payment_transaction = payment_transaction.sign(test_private_key)
 
     transaction_group = [

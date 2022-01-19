@@ -14,7 +14,7 @@ def contract_account(reserve_app_id):
     """
     Control flow logic for when users stake/unstake. The only accepted asset is USDC.
     First transaction is to the application, second is to the contract account.
-    
+
     # For stake/unstake:
     txn 0 must be app call noop
     txn 0 must be reserve app id

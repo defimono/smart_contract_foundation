@@ -67,7 +67,8 @@ def create():
 
     app_id = transaction_response['application-index']
 
-    logger.info("Deployed stateful reserve contract with app_id: {}".format(app_id))
+    logger.info(
+        "Deployed stateful reserve contract with app_id: {}".format(app_id))
 
     return app_id
 
@@ -102,7 +103,8 @@ def delete(app_id):
     # display results
     transaction_response = algod_client.pending_transaction_info(tx_id)
 
-    logger.info("Deleted stateful reserve contract with app_id: {}".format(app_id))
+    logger.info(
+        "Deleted stateful reserve contract with app_id: {}".format(app_id))
 
     return transaction_response
 
@@ -149,7 +151,8 @@ def update(app_id):
     # display results
     transaction_response = algod_client.pending_transaction_info(tx_id)
 
-    logger.info("Updated stateful reserve contract with app_id: {}".format(app_id))
+    logger.info(
+        "Updated stateful reserve contract with app_id: {}".format(app_id))
 
     return transaction_response
 
@@ -194,7 +197,8 @@ def update_contract_account(app_id, address, program):
     encoded_program = program.encode()
     program = base64.decodebytes(encoded_program)
     logic_signature = LogicSig(program)
-    logic_signed_payment_transaction = LogicSigTransaction(asset_transfer_transaction, logic_signature)
+    logic_signed_payment_transaction = LogicSigTransaction(
+        asset_transfer_transaction, logic_signature)
 
     # sign transaction
     signed_txn = noop_transaction.sign(admin_private_key)
@@ -202,7 +206,8 @@ def update_contract_account(app_id, address, program):
     tx_id = signed_txn.transaction.get_txid()
 
     # send transaction
-    algod_client.send_transactions([signed_txn, logic_signed_payment_transaction])
+    algod_client.send_transactions(
+        [signed_txn, logic_signed_payment_transaction])
 
     # await confirmation
     wait_for_confirmation(algod_client, tx_id, 30)
@@ -210,6 +215,7 @@ def update_contract_account(app_id, address, program):
     # display results
     transaction_response = algod_client.pending_transaction_info(tx_id)
 
-    logger.info("Updated stateful reserve contract with app_id: {}".format(app_id))
+    logger.info(
+        "Updated stateful reserve contract with app_id: {}".format(app_id))
 
     return transaction_response

@@ -49,13 +49,15 @@ def test_reserve_unstake_minimum_usdc():
     asset_transfer_transaction.group = group_id
 
     # Sign transaction group
-    signed_application_transaction = application_transaction.sign(test_private_key)
+    signed_application_transaction = application_transaction.sign(
+        test_private_key)
 
     # Create logic sig
     encoded_program = reserve_program.encode()
     program = base64.decodebytes(encoded_program)
     logic_signature = LogicSig(program)
-    logic_signed_asset_transfer_transaction = LogicSigTransaction(asset_transfer_transaction, logic_signature)
+    logic_signed_asset_transfer_transaction = LogicSigTransaction(
+        asset_transfer_transaction, logic_signature)
     transaction_group = [
         signed_application_transaction,
         logic_signed_asset_transfer_transaction
@@ -112,13 +114,15 @@ def test_reserve_unstake_too_much_usdc_fails():
         asset_transfer_transaction.group = group_id
 
         # Sign transaction group
-        signed_application_transaction = application_transaction.sign(test_private_key)
+        signed_application_transaction = application_transaction.sign(
+            test_private_key)
 
         # Create logic sig
         encoded_program = reserve_program.encode()
         program = base64.decodebytes(encoded_program)
         logic_signature = LogicSig(program)
-        logic_signed_asset_transfer_transaction = LogicSigTransaction(asset_transfer_transaction, logic_signature)
+        logic_signed_asset_transfer_transaction = LogicSigTransaction(
+            asset_transfer_transaction, logic_signature)
         transaction_group = [
             signed_application_transaction,
             logic_signed_asset_transfer_transaction

@@ -31,7 +31,7 @@ def create():
     # compile program to binary
     clear_state_program_compiled = compile_program(application_clear_teal)
 
-    logger.info("Deploying stateful reserve smart contract...")
+    logger.info("Deploying Contract collection smart contract...")
 
     on_complete = transaction.OnComplete.NoOpOC.real
 
@@ -65,7 +65,8 @@ def create():
 
     app_id = transaction_response['application-index']
 
-    logger.info("Deployed stateful reserve contract with app_id: {}".format(app_id))
+    logger.info(
+        "Deployed stateful contract collection contract with app_id: {}".format(app_id))
 
     return app_id
 
@@ -74,7 +75,7 @@ def delete(app_id):
     admin_address = app_config.get("admin_address")
     admin_private_key = app_config.get("admin_private_key")
 
-    logger.info("Deleting stateful reserve smart contract...")
+    logger.info("Deleting stateful contract collection smart contract...")
 
     # get node suggested parameters
     params = algod_client.suggested_params()
@@ -100,7 +101,8 @@ def delete(app_id):
     # display results
     transaction_response = algod_client.pending_transaction_info(tx_id)
 
-    logger.info("Deleted stateful reserve contract with app_id: {}".format(app_id))
+    logger.info(
+        "Deleted stateful contract collection contract with app_id: {}".format(app_id))
 
     return transaction_response
 
@@ -119,7 +121,7 @@ def update(app_id):
     # compile program to binary
     clear_state_program_compiled = compile_program(application_clear_teal)
 
-    logger.info("Updating stateful reserve smart contract...")
+    logger.info("Updating stateful contract collection smart contract...")
 
     # get node suggested parameters
     params = algod_client.suggested_params()
@@ -147,6 +149,7 @@ def update(app_id):
     # display results
     transaction_response = algod_client.pending_transaction_info(tx_id)
 
-    logger.info("Updated stateful reserve contract with app_id: {}".format(app_id))
+    logger.info(
+        "Updated stateful contract collection contract with app_id: {}".format(app_id))
 
     return transaction_response

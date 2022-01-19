@@ -1,0 +1,40 @@
+name: Pull Request
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  run:
+    name: Run
+    runs-on: ${{ matrix.operating-system }}
+    strategy:
+      matrix:
+        operating-system: [ ubuntu-latest ]
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+          architecture: 'x64'
+
+      - name: autopep8
+        id: autopep8
+        uses: peter-evans/autopep8@v1
+        with:
+          args: --recursive --in-place --aggressive --aggressive .
+
+      - name: Fail if autopep8 made changes
+        id: lint_check
+        if: steps.autopep8.outputs.exit-code == 2
+        run: exit 1
+
+      - name: Slack Notification
+        uses: rtCamp/action-slack-notify@v2
+        if: ${{ always() }}
+        env:
+          SLACK_TITLE: "Smart Contract Foundation Pull Request"
+          SLACK_USERNAME: "Github"
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL_FEED_DEPLOYMENTS }}

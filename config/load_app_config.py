@@ -13,13 +13,14 @@ def load_app_config():
     config = dict()
 
     config["admin_private_key"] = os.environ["ADMIN_PRIVATE_KEY"]
-    config["admin_address"] = account.address_from_private_key(config["admin_private_key"])
+    config["admin_address"] = account.address_from_private_key(
+        config["admin_private_key"])
 
     config["reserve_address"] = os.environ['RESERVE_ADDRESS']
     config["reserve_program"] = os.environ['RESERVE_PROGRAM']
 
     # Managed globally static app id's from foundation
-    config["option_collection_app_id"] = os.environ["OPTION_COLLECTION_APP_ID"]
+    config["contract_collection_app_id"] = os.environ["CONTRACT_COLLECTION_APP_ID"]
     config["oracle_app_id"] = int(os.environ['ORACLE_APP_ID'])
     config["reserve_app_id"] = int(os.environ['RESERVE_APP_ID'])
 
