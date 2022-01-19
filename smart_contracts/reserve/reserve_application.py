@@ -1,7 +1,6 @@
 from pyteal import *
 
 from smart_contracts.libs.generic_guards import generic_guards
-from smart_contracts.libs.is_admin import is_admin
 from smart_contracts.reserve.noops.expire import expire
 from smart_contracts.reserve.noops.insure import insure
 from smart_contracts.reserve.noops.stake import stake
@@ -13,6 +12,8 @@ def reserve_application():
     """
     The reserve is the heart of the application
     """
+    is_admin = Txn.sender() == App.globalGet(Bytes("admin"))
+
     handle_init = Seq([
         # On init, lock the contract down to the admin only being able to interact with it, and other global states
         App.globalPut(Bytes("admin"), Txn.sender()),
@@ -31,7 +32,7 @@ def reserve_application():
 
     handle_noop = Cond(
         [And(
-            is_admin(),
+            is_admin,
             *generic_guards(),
             Txn.application_args[0] == Bytes("update_contract_account")
         ), update_contract_account()],
@@ -55,7 +56,7 @@ def reserve_application():
             Txn.application_args[0] == Bytes("expire")
         ), expire()],
         [And(
-            is_admin()
+            is_admin
         ), Return(Int(1))]
     )
 
@@ -64,12 +65,12 @@ def reserve_application():
     ])
 
     handle_update = Seq([
-        Assert(is_admin()),
+        Assert(is_admin),
         Return(Int(1))
     ])
 
     handle_delete = Seq([
-        Assert(is_admin()),
+        Assert(is_admin),
         Return(Int(1))
     ])
 

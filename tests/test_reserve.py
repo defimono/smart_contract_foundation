@@ -6,21 +6,26 @@ from algosdk.future.transaction import wait_for_confirmation
 from dotenv import load_dotenv
 
 from config.algod_client import algod_client
+from modules.helpers.asset import smart_sig_opt_in
 
 load_dotenv()
 
 
 def test_reserve_stake_algorands_fails():
+    """
+    Should fail as noops based on the algorand standard asset should fail
+    :return:
+    """
     with pytest.raises(Exception):
         # Test algorand deposit
         test_address = os.environ["TEST_ADDRESS"]
         test_private_key = os.environ["TEST_PRIVATE_KEY"]
         reserve_address = os.environ["RESERVE_ADDRESS"]
-        reserve_program = os.environ["RESERVE_PROGRAM"]
         reserve_app_id = int(os.environ["RESERVE_APP_ID"])
 
         # Build stake transaction
         # Involves a 2 transaction group, first is the noop the second is the stake
+        # opt_in(test_address, test_private_key, reserve_app_id)
 
         params = algod_client.suggested_params()
 
@@ -70,13 +75,16 @@ def test_reserve_stake_algorands_fails():
         wait_for_confirmation(algod_client, tx_id, 30)
 
 
-def test_reserve_stake_algorands_usdc():
+def test_reserve_stake_usdc():
     # Test algorand deposit
     test_address = os.environ["TEST_ADDRESS"]
     test_private_key = os.environ["TEST_PRIVATE_KEY"]
+    reserve_program = os.environ["RESERVE_PROGRAM"]
     reserve_address = os.environ["RESERVE_ADDRESS"]
     reserve_app_id = int(os.environ["RESERVE_APP_ID"])
     usdc_asset_id = 10458941
+
+    smart_sig_opt_in(reserve_address, reserve_program, usdc_asset_id)
 
     params = algod_client.suggested_params()
 

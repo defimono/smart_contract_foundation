@@ -1,3 +1,4 @@
+from algosdk import mnemonic
 from algosdk.account import generate_account
 
 from config.logger import logger
@@ -11,6 +12,7 @@ def generate_keypair():
     private_key, address = generate_account()
     logger.info("My address: {}".format(address))
     logger.info("My private key: {}".format(private_key))
+    logger.info("Mnemonic: {}".format(mnemonic.from_private_key(private_key)))
 
     return {
         "address": address,
