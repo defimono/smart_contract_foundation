@@ -5,7 +5,7 @@ from algosdk.future import transaction
 from algosdk.future.transaction import wait_for_confirmation
 from dotenv import load_dotenv
 
-from config.algod_client import algod_client
+from config.algod_client import initialize_algod_client
 
 load_dotenv()
 
@@ -25,6 +25,7 @@ def test_reserve_stake_algorands_fails():
         # Build stake transaction
         # Involves a 2 transaction group, first is the noop the second is the stake
         # user_opt_in(test_address, test_private_key, reserve_app_id)
+        algod_client = initialize_algod_client()
 
         params = algod_client.suggested_params()
 
@@ -82,6 +83,8 @@ def test_reserve_stake_usdc():
     reserve_address = os.environ["RESERVE_ADDRESS"]
     reserve_app_id = int(os.environ["RESERVE_APP_ID"])
     usdc_asset_id = 10458941
+
+    algod_client = initialize_algod_client()
 
     params = algod_client.suggested_params()
 
