@@ -5,8 +5,6 @@ from algosdk.future import transaction
 from algosdk.future.transaction import wait_for_confirmation
 from dotenv import load_dotenv
 
-from config.algod_client import initialize_algod_client
-
 load_dotenv()
 
 
