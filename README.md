@@ -6,9 +6,13 @@
 
 ## Description
 
-Foundational smart contracts and related PyTeal templates for DeFi Mono that comprise key areas that comprise various
-systems. These have been provided as a tool to improve the community, Algorand ecosystem, etc. learn as well as provide
-the key contracts for external public security access, access, and collaboration.
+Foundational smart contracts and related PyTeal templates for DeFi Mono that comprise key areas of the platform and
+supporting systems. These have been provided as a tool to improve the community, Algorand ecosystem, educate, etc. as
+well as provide the key contracts for external public security access, access, and collaboration.
+
+## Contracts
+
+Currently, the testnet implementation is nearing completion for the following smart contract application groups.
 
 ### Reserve
 
@@ -25,7 +29,7 @@ there is one application only that is whitelisted for interaction with the smart
 Local state for smart contracts for each user is limited to 16 items of either Bytearray (Bytes) or Uint64. This is a
 helper smart contract to be called in collaboration with others to tie callers to what contracts they have assigned to
 themselves and track their state, and usage, of the application.
-
+ 
 This allows the platform to not host dedicated database software to tie users to their current items for their account,
 we end up using the blockchain natively for this function in subsequent atomic transaction groups. This elimantes also
 the state desync failure that would potentially occur if an API or database become unavailable.
