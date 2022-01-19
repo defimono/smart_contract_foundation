@@ -8,7 +8,6 @@ from algosdk.future.transaction import wait_for_confirmation, LogicSig, LogicSig
 from config.algod_client import algod_client
 
 
-@pytest.mark.integtest
 def test_reserve_unstake_minimum_usdc():
     test_address = os.environ["TEST_ADDRESS"]
     test_private_key = os.environ["TEST_PRIVATE_KEY"]
@@ -72,7 +71,6 @@ def test_reserve_unstake_minimum_usdc():
     wait_for_confirmation(algod_client, tx_id, 30)
 
 
-@pytest.mark.integtest
 def test_reserve_unstake_too_much_usdc_fails():
     with pytest.raises(Exception):
         test_address = os.environ["TEST_ADDRESS"]

@@ -10,7 +10,6 @@ from config.algod_client import algod_client
 load_dotenv()
 
 
-@pytest.mark.integtest
 def test_reserve_stake_algorands_fails():
     """
     Should fail as noops based on the algorand standard asset should fail
@@ -76,7 +75,6 @@ def test_reserve_stake_algorands_fails():
         wait_for_confirmation(algod_client, tx_id, 30)
 
 
-@pytest.mark.integtest
 def test_reserve_stake_usdc():
     # Test algorand deposit
     test_address = os.environ["TEST_ADDRESS"]
