@@ -1,5 +1,7 @@
 # Algorand Smart Contract Foundation
 
+[![Pull Request](https://github.com/defimono/smart_contract_foundation/actions/workflows/pull_request.yaml/badge.svg)](https://github.com/defimono/smart_contract_foundation/actions/workflows/pull_request.yaml)
+
 ![alt logo](./algorand_full_logo_black.png)
 
 ## Description

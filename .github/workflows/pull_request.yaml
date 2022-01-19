@@ -5,6 +5,20 @@ on:
     branches:
       - main
 
+env:
+  ALGOD_ADDRESS: https://testnet-algorand.api.purestake.io/ps2
+  ALGOD_CHAIN: test
+  ADMIN_ADDRESS: G5Q5MVXKIJNAEFBHV5H4ELEOBUYFLGVZQLIXIRY2OAZC73ANSYWSW6HXPU
+  TEST_ADDRESS: ASTFCW7PFI4VBXVBUPR2AVWVIMVGVQSRUP6OVT22HJGHK3BKCYHTAFXUOE
+  RESERVE_ADDRESS: G6T3TI2TRWSM5Z26FM4LAIXTTZ233ZLZDHYBPLZFMH4HVFZLWNYIGG64PI
+  RESERVE_PROGRAM: BTEJMgMSMSAyAxIQMQGBiCcOEDMAEIEGEhAzABiBwYylHxIQMRCBBBIQMRGBva7+BBIQQw==
+  RESERVE_APP_ID: 65619521
+  CONTRACT_COLLECTION_APP_ID: 65641079
+  ORACLE_APP_ID: 57235348
+  TEST_PRIVATE_KEY: ${{ secrets.TEST_PRIVATE_KEY }}
+  ADMIN_PRIVATE_KEY: ${{ secrets.ADMIN_PRIVATE_KEY }}
+  ALGOD_KEY: ${{ secrets.ALGOD_KEY }}
+
 jobs:
   run:
     name: Run
@@ -17,7 +31,7 @@ jobs:
 
       - uses: actions/setup-python@v2
         with:
-          python-version: '3.x'
+          python-version: '3.9'
           architecture: 'x64'
 
       - name: autopep8
@@ -31,6 +45,14 @@ jobs:
         if: steps.autopep8.outputs.exit-code == 2
         run: exit 1
 
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run Integration Tests
+        run: python -m pytest tests/integration
+
       - name: Slack Notification
         uses: rtCamp/action-slack-notify@v2
         if: ${{ always() }}
@@ -38,3 +60,4 @@ jobs:
           SLACK_TITLE: "Smart Contract Foundation Pull Request"
           SLACK_USERNAME: "Github"
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL_FEED_DEPLOYMENTS }}
+
