@@ -17,6 +17,7 @@ def reserve_application():
     handle_init = Seq([
         # On init, lock the contract down to the admin only being able to interact with it, and other global states
         App.globalPut(Bytes("admin"), Txn.sender()),
+        App.globalPut(Bytes("total_staked"), Int(0)),
         App.globalPut(Bytes("total_risk"), Int(0)),
         App.globalPut(Bytes("contract_account"), Global.zero_address()),
 

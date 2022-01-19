@@ -11,12 +11,16 @@ def global_must_get(key: TealType.bytes) -> Expr:
 
 
 def stake():
-    staked_state: App = App.localGet(Int(0), Bytes('staked'))
+    global_staked_state: App = App.globalGet(Bytes('total_staked'))
+    local_staked_state: App = App.localGet(Int(0), Bytes('staked'))
+
     contract_account = global_must_get(Bytes('contract_account'))
 
     return Seq([
         *assert_stake_guards(),
-        App.localPut(Int(0), Bytes("staked"), staked_state + Gtxn[1].amount()),
+        # Assert(Gtxn[1].receiver() == App.globalGet(Bytes('contract_account'))),
+        App.globalPut(Bytes("total_staked"), global_staked_state + Gtxn[1].asset_amount()),
+        App.localPut(Int(0), Bytes("staked"), local_staked_state + Gtxn[1].asset_amount()),
 
         Return(Int(1))
     ])

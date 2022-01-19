@@ -25,7 +25,7 @@ def test_reserve_stake_algorands_fails():
 
         # Build stake transaction
         # Involves a 2 transaction group, first is the noop the second is the stake
-        # opt_in(test_address, test_private_key, reserve_app_id)
+        # user_opt_in(test_address, test_private_key, reserve_app_id)
 
         params = algod_client.suggested_params()
 

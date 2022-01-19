@@ -12,8 +12,9 @@ if __name__ == "__main__":
         # generate_keypair()
 
         # Create/update the deployed stateful reserve app
-        # update_result = application.create()
+        # reserve_app_id = application.create()
         update_result = application.update(reserve_app_id)
+        # delete_result = application.delete(reserve_app_id)
 
         # Create the stateless contract account to hold funds
         created_contract_account = contract_account.create()

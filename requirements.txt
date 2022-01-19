@@ -10,3 +10,5 @@ cffi~=1.15.0
 pyteal~=0.9.1
 
 python-dotenv~=0.19.2
+
+pytest~=6.2.5

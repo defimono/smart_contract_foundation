@@ -19,7 +19,7 @@ def create():
     global_schema, local_schema = configure_state_params(
         local_ints=1,
         local_bytes=0,
-        global_ints=1,
+        global_ints=2,
         global_bytes=2
     )
 
@@ -161,7 +161,9 @@ def update_contract_account(app_id, address, program):
     # get node suggested parameters
     params = algod_client.suggested_params()
 
-    app_args = ["update_contract_account", address]
+    converted_address = address.encode()
+
+    app_args = ["update_contract_account", converted_address]
 
     # create unsigned transaction
     noop_transaction = transaction.ApplicationNoOpTxn(
