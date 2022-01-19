@@ -38,3 +38,4 @@ jobs:
           SLACK_TITLE: "Smart Contract Foundation Pull Request"
           SLACK_USERNAME: "Github"
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL_FEED_DEPLOYMENTS }}
+
