@@ -1,7 +1,7 @@
 from pyteal import *
 
 
-def option_collection():
+def contract_collection_application():
     """
         This option collection is intended to serve as a pseudo database for a user, to avoid backend database
         systems in traditional system architecture. This might still need to be approached again to enable further
@@ -44,6 +44,7 @@ def option_collection():
 
     remove_contract = Seq([
         i.store(Int(0)),
+        # 16 is max local-state items possible
         While(i.load() < Int(16)).Do(Seq([
             If(App.localGet(Txn.sender(), Itob(i.load())) == contract_id).Then(
                 Seq([
@@ -54,7 +55,7 @@ def option_collection():
             i.store(i.load() + Int(1))
         ])),
 
-        Return(Int(1))
+        Return(Int(0))
     ])
 
     handle_noop = Cond(
@@ -62,13 +63,13 @@ def option_collection():
             no_rekey_address,
             no_close_out_address,
             acceptable_fee,
-            Txn.application_args[0] == Bytes("add_contract")
+            Txn.application_args[0] == Bytes("append")
         ), add_contract],
         [And(
             no_rekey_address,
             no_close_out_address,
             acceptable_fee,
-            Txn.application_args[0] == Bytes("remove_contract")
+            Txn.application_args[0] == Bytes("remove")
         ), remove_contract],
     )
 
