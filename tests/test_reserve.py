@@ -6,7 +6,6 @@ from algosdk.future.transaction import wait_for_confirmation
 from dotenv import load_dotenv
 
 from config.algod_client import algod_client
-from modules.helpers.asset import smart_sig_opt_in
 
 load_dotenv()
 
@@ -83,8 +82,6 @@ def test_reserve_stake_usdc():
     reserve_address = os.environ["RESERVE_ADDRESS"]
     reserve_app_id = int(os.environ["RESERVE_APP_ID"])
     usdc_asset_id = 10458941
-
-    smart_sig_opt_in(reserve_address, reserve_program, usdc_asset_id)
 
     params = algod_client.suggested_params()
 

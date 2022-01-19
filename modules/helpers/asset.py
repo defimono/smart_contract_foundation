@@ -1,7 +1,5 @@
-import base64
-
 from algosdk.future import transaction
-from algosdk.future.transaction import wait_for_confirmation, AssetTransferTxn, LogicSig, LogicSigTransaction
+from algosdk.future.transaction import wait_for_confirmation
 
 from config.algod_client import algod_client
 from config.logger import logger
@@ -57,25 +55,3 @@ def user_opt_out(address, private_key, app_id):
     logger.info(transaction_response)
 
     return transaction_response
-
-
-def signed_smart_sig_opt_in(address, program, asset_id=10458941):
-    params = algod_client.suggested_params()
-
-    asset_transfer_transaction = AssetTransferTxn(
-        sender=address,
-        sp=params,
-        receiver=address,
-        amt=0,
-        index=asset_id)
-
-    # Create logic sig
-    encoded_program = program.encode()
-    # program = b"hex-encoded-program"
-    program = base64.decodebytes(encoded_program)
-
-    logic_signature = LogicSig(program)
-
-    logic_signed_payment_transaction = LogicSigTransaction(asset_transfer_transaction, logic_signature)
-
-    return logic_signed_payment_transaction
