@@ -26,7 +26,7 @@ def contract_account(reserve_app_id):
     is_app_call = Gtxn[0].type_enum() == TxnType.ApplicationCall
     linked_reserve_app_id = Gtxn[0].application_id() == Int(reserve_app_id)
 
-    # Contract call 2, a.k.a. this contract. 31566704 is the USDC asset ID
+    # Contract call 2, a.k.a. this contract. 10458941 is the USDC asset ID
     is_asset_transfer = Txn.type_enum() == TxnType.AssetTransfer
     is_usdc = Txn.xfer_asset() == Int(10458941)
 

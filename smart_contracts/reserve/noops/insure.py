@@ -22,6 +22,7 @@ def insure():
         # When we insure an item against the central reserve, we need to record MAX risk for payout
         # total risk = total risk + max current risk is amount insured * price per asset
         # App.globalPut(Bytes("total_risk"), risk_state + amount_insured),
+        # TODO also make it so only the ADMIN can actually interact with noops
 
         Return(Int(1))
     ])
