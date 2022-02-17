@@ -1,9 +1,19 @@
 from pyteal import *
 
 
-def contract_account(reserve_app_id):
+def contract_account(
+        reserve_app_id,
+        authorized_address
+):
     """
-    asset transfers are a separate transaction type to an algorand payment transaction. pay != axfer
+    The contract account is the reserve escrow wallet.
+    The Algos are the rewards to be paid to stakers.
+    The USDC is the central reserve, from which collateral is pulled into escrow service accounts 1-1 to strategies.
+
+
+
+
+
     :param reserve_app_id: The reserve application ID. Only approve transactions grouped with it.
     :return: Compiled TEAL of contract account
     """
@@ -13,13 +23,6 @@ def contract_account(reserve_app_id):
 
     """
     Control flow logic for when users stake/unstake. The only accepted asset is USDC.
-    First transaction is to the application, second is to the contract account.
-
-    # For stake/unstake:
-    txn 0 must be app call noop
-    txn 0 must be reserve app id
-    txn 1 must be type asset transfer
-    txn 1 must be asset id 31566704
     """
 
     # Contract call 1 app verification. We *should* be txn 1 not 0...
